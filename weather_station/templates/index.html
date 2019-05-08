@@ -1,0 +1,100 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% block "content" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <p style="font-size: 40px">{{ temperature|floatformat }}°C</p>
+            </div>
+            <div class="col-sm">
+                <p><span style="font-size: 45px">{{ wind_speed }}</span><span style="font-size: 10px"><br/>km/h - {{ wind_direction }}</span></p>
+                {% if wind_speed != wind_gust %}
+                <p><span style="font-size: 25px">{{ wind_gust }}</span><span style="font-size: 10px"><br/>km/h rafale</span></p>
+                {% endif %}
+            </div>
+            <div class="col-sm">
+                <p><span style="font-size: 40px">{{ humidity }}</span><span style="font-size: 10px"><br/>% d'humidité</span></p>
+            </div>
+            <div class="col-sm">
+                <p><span style="font-size: 40px">{{ pressure }}</span><span style="font-size: 10px"><br/>hPa</span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <p><span style="font-size: 40px">{{ lux }}</span><span style="font-size: 10px"><br/>lx</span></p>
+            </div>
+            <div class="col-sm">
+                <p><span style="font-size: 40px">{{ uv_index|floatformat }}</span><span style="font-size: 10px"><br/>Indice UV</span></p>
+                <div style="width:47%; vertical-align: top; display: inline-block;">
+                    <p><span style="font-size: 20px">{{ uv_b|floatformat }}</span><span style="font-size: 10px"><br/>UV B</span></p>
+                </div>
+                <div style="width:47%; vertical-align: top; display: inline-block;">
+                    <p><span style="font-size: 20px">{{ uv_a|floatformat }}</span><span style="font-size: 10px"><br/>UV A</span></p>
+                </div>
+            </div>
+            <div class="col-sm">
+                    {% if rain_measurements %}
+                    <canvas id="rain"></canvas>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if rain_measurements %}
+    <script>
+        var config = {
+            type: 'line',
+            data: {
+                labels: [
+                        {% for rain in rain_measurements %}
+                            '{{ rain.created_at|date:"G:i" }}',
+                        {% endfor %}
+                    ],
+                datasets: [{
+                    label: 'Pluie',
+                    backgroundColor: "#5893d4",
+                    borderColor: "#5893d4",
+                    data: [
+                        {% for rain in rain_measurements %}
+                            {{ rain.rain_fall }},
+                        {% endfor %}
+                    ],
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById('rain').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+        };
+    </script>
+    {% endif %}
+{% endblock %}

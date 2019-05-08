@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from weather_station import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("", views.index, name="index"),
+    path("statistics/", views.statistics, name="statistics"),
+    path("statistics/temperature/", views.temperature, name="temperature"),
+    path("statistics/wind/", views.wind, name="wind"),
+    path("statistics/uv/", views.index, name="uv"),
+    path("statistics/lux/", views.index, name="lux"),
+    path("statistics/humidity/", views.index, name="humidity"),
+    path("statistics/pressure/", views.index, name="pressure"),
+    path("admin/", admin.site.urls),
 ]

@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Station météo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+</head>
+<body>
+    <div class="container">
+        <p style="text-align: center; margin-top: 20px;"><a href="{% url 'temperature' %}">Temperature</a></p>
+        <p style="text-align: center; margin-top: 20px;"><a href="{% url 'wind' %}">Vent</a></p>
+        <p style="text-align: center; margin-top: 20px;"><a href="{% url 'uv' %}">UV</a></p>
+        <p style="text-align: center; margin-top: 20px;"><a href="{% url 'lux' %}">Lux</a></p>
+        <p style="text-align: center; margin-top: 20px;"><a href="{% url 'humidity' %}">Humidity</a></p>
+        <p style="text-align: center; margin-top: 20px;"><a href="{% url 'pressure' %}">Pression</a></p>
+    </div>
+</body>
+</html>

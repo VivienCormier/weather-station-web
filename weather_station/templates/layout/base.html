@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Station météo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static "bootstrap-reboot.min.css" %}">
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "bootstrap-grid.min.css" %}">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    <link rel="stylesheet" href="{% static "Chart.min.css" %}">
+    <script type="text/javascript" src="{% static "Chart.min.js" %}"></script>
+</head>
+<body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'index' %}">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{% url 'statistics' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Statistiques
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'temperature' %}">Temperature</a>
+                    <a class="dropdown-item" href="{% url 'wind' %}">Vent</a>
+                    <a class="dropdown-item" href="{% url 'uv' %}">UV</a>
+                    <a class="dropdown-item" href="{% url 'lux' %}">Lux</a>
+                    <a class="dropdown-item" href="{% url 'humidity' %}">Humidité</a>
+                    <a class="dropdown-item" href="{% url 'pressure' %}">Pression</a>
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    {% block "content" %}{% endblock %}
+    <script src="{% static "jquery.min.js" %}"></script>
+    <script src="{% static "bootstrap.bundle.min.js" %}"></script>
+</body>
+</html>

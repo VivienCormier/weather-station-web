@@ -1,0 +1,41 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% block "content" %}
+    <div class="container">
+        <div class="row">
+                <div class="col-sm">
+                    <canvas id="wind-direction"></canvas>
+                </div>
+        </div>
+    </div>
+    <script>
+        var config = {
+            type: 'radar',
+            data: {
+                labels: [
+                        {% for data in wind_directions %}
+                            '{{ data.direction }}',
+                        {% endfor %}
+                    ],
+                datasets: [{
+                    label: 'Moyenne km/h',
+                    backgroundColor: "#5893d4",
+                    borderColor: "#5893d4",
+                    data: [
+                        {% for data in wind_directions %}
+                            {{ data.speed }},
+                        {% endfor %}
+                    ],
+                    fill: false,
+                }]
+            },
+            options: {
+			}
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById('wind-direction').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+        };
+    </script>
+{% endblock %}
