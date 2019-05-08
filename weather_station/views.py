@@ -1,27 +1,28 @@
 from datetime import datetime, timedelta
 from django.shortcuts import render
 
-from .models import BasicMeasurement, WindMeasurement, RainMeasurement
+from .models import Measurement
 
 
 def index(request):
-    basic_measurement = BasicMeasurement.objects.last()
-    wind_measurement = WindMeasurement.objects.last()
+    measurements = Measurement.objects.last()
     time_threshold = datetime.now() - timedelta(hours=1)
-    rain_measurements = RainMeasurement.objects.filter(
-        created_at__gt=time_threshold
-    ).order_by("created_at")
+    rain_measurements = (
+        Measurement.objects.filter(created_at__gt=time_threshold)
+        .order_by("created_at")
+        .values("rain_fall", "created_at")
+    )
     context = {
-        "humidity": basic_measurement.humidity,
-        "pressure": basic_measurement.pressure,
-        "temperature": basic_measurement.temperature,
-        "lux": basic_measurement.lux,
-        "uv_index": basic_measurement.uv_index,
-        "uv_a": basic_measurement.uv_a,
-        "uv_b": basic_measurement.uv_b,
-        "wind_direction": wind_measurement.wind_direction,
-        "wind_gust": wind_measurement.wind_gust,
-        "wind_speed": wind_measurement.wind_speed,
+        "humidity": measurements.humidity,
+        "pressure": measurements.pressure,
+        "temperature": measurements.temperature,
+        "lux": measurements.lux,
+        "uv_index": measurements.uv_index,
+        "uv_a": measurements.uv_a,
+        "uv_b": measurements.uv_b,
+        "wind_direction": measurements.wind_direction,
+        "wind_gust": measurements.wind_gust,
+        "wind_speed": measurements.wind_speed,
         "rain_measurements": rain_measurements,
     }
     return render(request, "index.html", context=context)
@@ -34,7 +35,7 @@ def statistics(request):
 def temperature(request):
     time_threshold = datetime.now() - timedelta(hours=24)
     temperature_measurement = (
-        BasicMeasurement.objects.filter(created_at__gt=time_threshold)
+        Measurement.objects.filter(created_at__gt=time_threshold)
         .order_by("created_at")
         .values("temperature", "created_at")
     )
@@ -47,11 +48,11 @@ def wind(request):
     from django.db.models import Avg
 
     time_threshold = datetime.now() - timedelta(hours=24)
-    wind_measurement = WindMeasurement.objects.filter(
+    wind_measurement = Measurement.objects.filter(
         created_at__gt=time_threshold
     ).order_by("created_at")
     wind_directions = []
-    for wind_direction in WindMeasurement.WIND_DIRECTION_CHOICES:
+    for wind_direction in Measurement.WIND_DIRECTION_CHOICES:
         avg = wind_measurement.filter(wind_direction=wind_direction[0]).aggregate(
             Avg("wind_speed")
         )
