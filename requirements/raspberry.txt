@@ -1,5 +1,4 @@
-django==2.2.1
-psycopg2==2.8.2
+-r base.txt
 RPi.bme280==0.2.2
 adafruit-circuitpython-veml6075==1.0.2
 adafruit-circuitpython-tsl2561==3.2.1
