@@ -5,7 +5,7 @@ from .bme280_sensor import get_data as bme280_sensor_get_data
 from .ds18b20_therm import get_data as ds18b20_therm_get_data
 from .tsl2561 import get_data as tsl2561_get_data
 from .veml6075 import get_data as veml6075_get_data
-from .rain_fall import reset_rain_fall, rain_fall_get_data
+from .rain_fall import reset_rainfall, get_data as rain_fall_get_data
 from .wind import reset_wind, calculate_speed
 from .wind_direction import get_data as wind_direction_get_data
 
@@ -16,7 +16,7 @@ INTERVAL = 5  # 5 sec
 def get_data(length=TIME_MEASUREMENT):
     direction_data = []
     speed_data = []
-    reset_rain_fall()
+    reset_rainfall()
     start_time = time.time()
 
     while time.time() - start_time <= length:
