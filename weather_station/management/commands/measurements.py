@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from ..models import Measurements
-from ..measurements_devices import collect_data
+from weather_station.models import Measurements
+from weather_station.measurements_devices import collect_data
 
 
 class Command(BaseCommand):
