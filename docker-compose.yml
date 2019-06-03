@@ -7,5 +7,6 @@ services:
         ports:
             - "5432:5432"
         environment:
-            - POSTGRES_USER=dev
+            - POSTGRES_USER=weather
             - POSTGRES_DB=weather
+            - POSTGRES_PASSWORD=weather
