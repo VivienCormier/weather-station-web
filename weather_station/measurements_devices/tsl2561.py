@@ -1,5 +1,6 @@
 import smbus
 import time
+from decimal import Decimal
 
 # Get I2C bus
 bus = smbus.SMBus(1)
@@ -8,11 +9,11 @@ bus = smbus.SMBus(1)
 def get_data():
     # TSL2561 address, 0x39(57)
     # Select control register, 0x00(00) with command register, 0x80(128)
-    #		0x03(03)	Power ON mode
+    # 		0x03(03)	Power ON mode
     bus.write_byte_data(0x39, 0x00 | 0x80, 0x03)
     # TSL2561 address, 0x39(57)
     # Select timing register, 0x01(01) with command register, 0x80(128)
-    #		0x02(02)	Nominal integration time = 402ms
+    # 		0x02(02)	Nominal integration time = 402ms
     bus.write_byte_data(0x39, 0x01 | 0x80, 0x02)
 
     time.sleep(0.5)
@@ -24,4 +25,4 @@ def get_data():
     # Convert the data
     lux = data[1] * 256 + data[0]
 
-    return {'lux': lux}
+    return {"lux": Decimal(str(lux))}

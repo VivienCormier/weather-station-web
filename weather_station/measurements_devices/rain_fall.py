@@ -1,4 +1,5 @@
 from gpiozero import Button
+from decimal import Decimal
 
 rain_sensor = Button(6)
 BUCKET_SIZE = 0.2794
@@ -17,7 +18,7 @@ def reset_rainfall():
 
 def get_data():
     global count
-    return round(count * BUCKET_SIZE, 2)
+    return Decimal(str(round(count * BUCKET_SIZE, 2)))
 
 
 rain_sensor.when_pressed = bucket_tipped

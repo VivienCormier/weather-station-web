@@ -2,6 +2,8 @@
 import glob
 import time
 
+from decimal import Decimal
+
 
 class DS18B20(object):
     def __init__(self):
@@ -24,7 +26,7 @@ class DS18B20(object):
         success = self.crc_check(lines)
 
         while not success and attempts < 3:
-            time.sleep(.2)
+            time.sleep(0.2)
             lines = self.read_temp_raw()
             success = self.crc_check(lines)
             attempts += 1
@@ -33,8 +35,8 @@ class DS18B20(object):
             temp_line = lines[1]
             equal_pos = temp_line.find("t=")
             if equal_pos != -1:
-                temp_string = temp_line[equal_pos+2:]
-                temp_c = float(temp_string)/1000.0
+                temp_string = temp_line[equal_pos + 2 :]
+                temp_c = float(temp_string) / 1000.0
 
         return temp_c
 
@@ -45,4 +47,4 @@ def get_data():
     # Fix bug when first data is corrupted
     while temperature >= 80:
         temperature = obj.read_temp()
-    return {'temperature': temperature}
+    return {"temperature": Decimal(str(temperature))}

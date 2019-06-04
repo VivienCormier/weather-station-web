@@ -3,6 +3,8 @@ import time
 import math
 import statistics
 
+from decimal import Decimal
+
 
 wind_count = 0
 radius_cm = 9.0
@@ -51,6 +53,6 @@ def get_data():
     wind_gust = max(store_speeds)
     wind_speed = statistics.mean(store_speeds)
     return {
-        'wind_gust': wind_gust,
-        'wind_speed': wind_speed,
+        "wind_gust": Decimal(str(wind_gust)),
+        "wind_speed": Decimal(str(wind_speed)),
     }
