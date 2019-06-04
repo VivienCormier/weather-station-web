@@ -21,10 +21,10 @@ class Measurement(models.Model):
     )
     lux = models.IntegerField(blank=True, null=True)
     uv_index = models.DecimalField(
-        max_digits=2, decimal_places=1, blank=True, null=True
+        max_digits=4, decimal_places=2, blank=True, null=True
     )
-    uv_a = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
-    uv_b = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    uv_a = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
+    uv_b = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     wind_direction = models.PositiveIntegerField(
         choices=WIND_DIRECTION_CHOICES, blank=True, null=True
     )

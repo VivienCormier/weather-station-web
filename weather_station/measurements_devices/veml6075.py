@@ -9,7 +9,7 @@ veml = adafruit_veml6075.VEML6075(i2c, integration_time=100)
 
 def get_data():
     return {
-        'uv_index': veml.uv_index,
-        'uv_a': veml.uva,
-        'uv_b': veml.uvb,
+        "uv_index": round(veml.uv_index, 2),
+        "uv_a": round(veml.uva, 1),
+        "uv_b": round(veml.uvb, 1),
     }
