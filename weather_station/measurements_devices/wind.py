@@ -50,4 +50,4 @@ def get_data():
         store_speeds.append(final_speed)
     wind_gust = max(store_speeds)
     wind_speed = statistics.mean(store_speeds)
-    return {"wind_gust": rount(wind_gust), "wind_speed": round(wind_speed)}
+    return {"wind_gust": round(wind_gust), "wind_speed": round(wind_speed)}
