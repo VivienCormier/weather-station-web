@@ -2,8 +2,6 @@
 import glob
 import time
 
-from decimal import Decimal
-
 
 class DS18B20(object):
     def __init__(self):
@@ -47,4 +45,4 @@ def get_data():
     # Fix bug when first data is corrupted
     while temperature >= 80:
         temperature = obj.read_temp()
-    return {"temperature": Decimal(str(temperature))}
+    return {"temperature": str(round(temperature, 2))}

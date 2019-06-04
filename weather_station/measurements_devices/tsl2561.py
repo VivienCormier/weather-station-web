@@ -1,6 +1,5 @@
 import smbus
 import time
-from decimal import Decimal
 
 # Get I2C bus
 bus = smbus.SMBus(1)
@@ -25,4 +24,4 @@ def get_data():
     # Convert the data
     lux = data[1] * 256 + data[0]
 
-    return {"lux": Decimal(str(lux))}
+    return {"lux": round(lux)}
