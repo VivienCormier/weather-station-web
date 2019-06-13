@@ -53,9 +53,9 @@ def wind(request):
     ).order_by("created_at")
     wind_directions = []
     for wind_direction in Measurement.WIND_DIRECTION_CHOICES:
-        avg = wind_measurement.filter(wind_direction=wind_direction[0]).aggregate(
-            Avg("wind_speed")
-        )
+        avg = wind_measurement.filter(
+            wind_direction=wind_direction[0], wind_speed__gt=0
+        ).aggregate(Avg("wind_speed"))
         wind_directions.append(
             {"direction": wind_direction[1], "speed": avg["wind_speed__avg"] or 0}
         )
