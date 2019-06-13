@@ -55,13 +55,13 @@ def wind(request):
     for wind_direction in Measurement.WIND_DIRECTION_CHOICES:
         avg = wind_measurement.filter(
             wind_direction=wind_direction[0], wind_speed__gt=0
-        ).aggregate(Avg("wind_speed"))
+        ).aggregate(Avg("wind_speed"), Avg("wind_gust"))
         wind_directions.append(
-            {"direction": wind_direction[1], "speed": avg["wind_speed__avg"] or 0}
+            {
+                "direction": wind_direction[1],
+                "gust": avg["wind_gust__avg"] or 0,
+                "speed": avg["wind_speed__avg"] or 0,
+            }
         )
-    return render(
-        request,
-        "wind.html",
-        context={"wind": wind_measurement, "wind_directions": wind_directions},
-    )
+    return render(request, "wind.html", context={"wind_directions": wind_directions})
 

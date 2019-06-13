@@ -27,6 +27,17 @@
                         {% endfor %}
                     ],
                     fill: false,
+                },
+                {
+                    label: 'Rafale km/h',
+                    backgroundColor: "#ff6699",
+                    borderColor: "#ff6699",
+                    data: [
+                        {% for data in wind_directions %}
+                            {{ data.gust }},
+                        {% endfor %}
+                    ],
+                    fill: false,
                 }]
             },
             options: {
