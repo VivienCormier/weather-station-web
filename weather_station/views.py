@@ -6,7 +6,7 @@ from .models import Measurement
 
 def index(request):
     measurement = Measurement.objects.last()
-    time_threshold = datetime.now() - timedelta(days=12)
+    time_threshold = datetime.now() - timedelta(hours=1)
     measurements = Measurement.objects.filter(created_at__gt=time_threshold).order_by(
         "created_at"
     )

@@ -36,7 +36,7 @@
         </div>
         <div class="row">
             <div class="col-sm">
-                    <canvas id="rain"></canvas>
+                <canvas id="rain"></canvas>
             </div>
             <div class="col-sm">
                 <canvas id="temperature"></canvas>
@@ -146,12 +146,14 @@
 
         window.onload = function() {
             var ctx = document.getElementById('rain').getContext('2d');
-            window.myLine = new Chart(ctx, config_rain);
-        };
+            window.myLine = new Chart(document.getElementById('rain').getContext('2d'), config_rain, {
+                responsive: true
+            });
 
-        window.onload = function() {
             var ctx = document.getElementById('temperature').getContext('2d');
-            window.myLine = new Chart(ctx, config_temperature);
+            window.myLine = new Chart(document.getElementById('temperature').getContext('2d'), config_temperature,{
+                responsive: true
+            });
         };
     </script>
 {% endblock %}
