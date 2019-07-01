@@ -1,6 +1,8 @@
 import time
 import statistics
 
+from collections import Counter
+
 from .bme280_sensor import get_data as bme280_sensor_get_data
 from .ds18b20_therm import get_data as ds18b20_therm_get_data
 from .tsl2561 import get_data as tsl2561_get_data
@@ -32,7 +34,12 @@ def get_data(length=TIME_MEASUREMENT):
         speed = calculate_speed(INTERVAL)
         speed_data.append(speed)
 
-    avg_direction = statistics.mode(direction_data) if direction_data else None
+    avg_direction = None
+    if direction_data:
+        c = Counter(direction_data)
+        c.most_common(1)
+        avg_direction = c[0][0]
+    avg_direction = Counter(direction_data) if direction_data else None
     wind_speed = statistics.mean(speed_data) if speed_data else None
     wind_gust = max(speed_data)
 

@@ -1,5 +1,6 @@
 {% extends "layout/base.html" %}
 {% load static %}
+{% load tz %}
 {% block "content" %}
     <div class="container">
         <div class="row">
@@ -14,7 +15,7 @@
             data: {
                 labels: [
                         {% for temp in temperatures %}
-                            '{{ temp.created_at|date:"G:i" }}',
+                            '{{ temp.created_at|timezone:"Europe/Paris"|date:"G:i" }}',
                         {% endfor %}
                     ],
                 datasets: [{
