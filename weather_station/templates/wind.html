@@ -64,7 +64,18 @@
                     borderColor: "#5893d4",
                     data: [
                         {% for measurement in measurements %}
-                            {{ measurement.wind }},
+                            {{ measurement.wind_speed }},
+                        {% endfor %}
+                    ],
+                    fill: false,
+                },
+                {
+                    label: 'Rafale km/h',
+                    backgroundColor: "#ff6699",
+                    borderColor: "#ff6699",
+                    data: [
+                        {% for measurement in measurements %}
+                            {{ measurement.wind_gust }},
                         {% endfor %}
                     ],
                     fill: false,
