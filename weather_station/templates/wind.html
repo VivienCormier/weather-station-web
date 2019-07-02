@@ -54,7 +54,7 @@
             type: 'line',
             data: {
                 labels: [
-                        {% for measurement in measurements %}
+                        {% for measurement in wind_measurement %}
                             '{{ measurement.created_at|timezone:"Europe/Paris"|date:"G:i" }}',
                         {% endfor %}
                     ],
@@ -63,7 +63,7 @@
                     backgroundColor: "#5893d4",
                     borderColor: "#5893d4",
                     data: [
-                        {% for measurement in measurements %}
+                        {% for measurement in wind_measurement %}
                             {{ measurement.wind_speed }},
                         {% endfor %}
                     ],
@@ -74,7 +74,7 @@
                     backgroundColor: "#ff6699",
                     borderColor: "#ff6699",
                     data: [
-                        {% for measurement in measurements %}
+                        {% for measurement in wind_measurement %}
                             {{ measurement.wind_gust }},
                         {% endfor %}
                     ],
