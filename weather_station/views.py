@@ -61,5 +61,12 @@ def wind(request):
                 "speed": avg["wind_speed__max"] or 0,
             }
         )
-    return render(request, "wind.html", context={"wind_directions": wind_directions})
+    return render(
+        request,
+        "wind.html",
+        context={
+            "wind_directions": wind_directions,
+            "wind_measurement": wind_measurement,
+        },
+    )
 
