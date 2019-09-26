@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.shortcuts import render
+from django.db.models import Sum
 
 from .models import Measurement
 
@@ -70,3 +71,49 @@ def wind(request):
         },
     )
 
+
+def humidity(request):
+    time_threshold = datetime.now() - timedelta(hours=24)
+    measurements = (
+        Measurement.objects.filter(created_at__gt=time_threshold)
+        .order_by("created_at")
+        .values("humidity", "created_at")
+    )
+    return render(request, "humidity.html", context={"measurements": measurements})
+
+
+def pressure(request):
+    time_threshold = datetime.now() - timedelta(hours=24)
+    measurements = (
+        Measurement.objects.filter(created_at__gt=time_threshold)
+        .order_by("created_at")
+        .values("pressure", "created_at")
+    )
+    return render(request, "pressure.html", context={"measurements": measurements})
+
+
+def lux(request):
+    time_threshold = datetime.now() - timedelta(hours=24)
+    measurements = (
+        Measurement.objects.filter(created_at__gt=time_threshold)
+        .order_by("created_at")
+        .values("lux", "created_at")
+    )
+    return render(request, "lux.html", context={"measurements": measurements})
+
+
+def rain(request):
+    time_threshold = datetime.now() - timedelta(hours=24)
+    measurements = (
+        Measurement.objects.filter(created_at__gt=time_threshold)
+        .order_by("created_at")
+        .values("rain_fall", "created_at")
+    )
+    return render(
+        request,
+        "rain.html",
+        context={
+            "measurements": measurements,
+            "sum": measurements.aggregate(Sum("rain_fall")),
+        },
+    )

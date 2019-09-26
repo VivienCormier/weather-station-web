@@ -23,8 +23,9 @@ urlpatterns = [
     path("statistics/temperature/", views.temperature, name="temperature"),
     path("statistics/wind/", views.wind, name="wind"),
     path("statistics/uv/", views.index, name="uv"),
-    path("statistics/lux/", views.index, name="lux"),
-    path("statistics/humidity/", views.index, name="humidity"),
-    path("statistics/pressure/", views.index, name="pressure"),
+    path("statistics/lux/", views.lux, name="lux"),
+    path("statistics/humidity/", views.humidity, name="humidity"),
+    path("statistics/pressure/", views.pressure, name="pressure"),
+    path("statistics/rain/", views.rain, name="rain"),
     path("admin/", admin.site.urls),
 ]
