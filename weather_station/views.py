@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.shortcuts import render
+from django.db.models.functions import ExtractWeek, ExtractYear
 from django.db.models import Sum
 
 from .models import Measurement
@@ -109,11 +110,21 @@ def rain(request):
         .order_by("created_at")
         .values("rain_fall", "created_at")
     )
+    time_threshold = datetime.now() - timedelta(days=365)
+    measurements_by_years = (
+        Measurement.objects.filter(created_at__gt=time_threshold)
+        .annotate(year=ExtractYear("created_at"))
+        .annotate(week=ExtractWeek("created_at"))
+        .values("year", "week")
+        .annotate(sum_rain=Sum("rain_fall"))
+        .order_by("week")
+    )
     return render(
         request,
         "rain.html",
         context={
             "measurements": measurements,
+            "measurements_by_years": measurements_by_years,
             "sum": measurements.aggregate(Sum("rain_fall")),
         },
     )
