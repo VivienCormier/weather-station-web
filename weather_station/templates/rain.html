@@ -20,7 +20,7 @@
         </div>
     </div>
     <script>
-        var config = {
+        var config1 = {
             type: 'line',
             data: {
                 labels: [
@@ -69,19 +69,12 @@
                 }
             }
         };
-
-        window.onload = function() {
-            var ctx = document.getElementById('rain').getContext('2d');
-            window.myLine = new Chart(ctx, config);
-        };
-    </script>
-    <script>
-        var config = {
+        var config2 = {
             type: 'bar',
             data: {
                 labels: [
                         {% for measurement in measurements_by_years %}
-                            '{{ measurement.week }}',
+                            '{{ measurement.date }}',
                         {% endfor %}
                     ],
                 datasets: [{
@@ -90,7 +83,7 @@
                     borderColor: "#5893d4",
                     data: [
                         {% for measurement in measurements_by_years %}
-                            {{ measurement.sum_rain|default_if_none:0 }},
+                            {{ measurement.data }},
                         {% endfor %}
                     ],
                     fill: false,
@@ -120,15 +113,20 @@
                         display: true,
                         scaleLabel: {
                             display: false,
-                        }
+                        },
+                        ticks: {
+                beginAtZero: true
+            }
                     }]
                 }
             }
         };
 
         window.onload = function() {
-            var ctx = document.getElementById('sum_rain').getContext('2d');
-            window.myLine = new Chart(ctx, config);
+            var ctx2 = document.getElementById('sum_rain').getContext('2d');
+            window.myLine = new Chart(ctx2, config2);
+            var ctx1 = document.getElementById('rain').getContext('2d');
+            window.myLine = new Chart(ctx1, config1);
         };
     </script>
 {% endblock %}

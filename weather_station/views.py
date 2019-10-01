@@ -4,6 +4,7 @@ from django.db.models.functions import ExtractWeek, ExtractYear
 from django.db.models import Sum
 
 from .models import Measurement
+from .utils import group_measurements
 
 
 def index(request):
@@ -111,13 +112,11 @@ def rain(request):
         .values("rain_fall", "created_at")
     )
     time_threshold = datetime.now() - timedelta(days=365)
-    measurements_by_years = (
-        Measurement.objects.filter(created_at__gt=time_threshold)
-        .annotate(year=ExtractYear("created_at"))
-        .annotate(week=ExtractWeek("created_at"))
-        .values("year", "week")
-        .annotate(sum_rain=Sum("rain_fall"))
-        .order_by("week")
+    measurements_by_years = group_measurements(
+        Measurement.objects.filter(created_at__gt=time_threshold),
+        "rain_fall",
+        "month",
+        "sum",
     )
     return render(
         request,
