@@ -10,70 +10,16 @@
         </div>
         <div class="row">
                 <div class="col-sm" style="margin-top: 30px;">
-                    {% if sum.rain_fall__sum %}Total sur les dernières 24h: {{ sum.rain_fall__sum }}mm{% else %}Pas de pluie depuis 24h{% endif %}
-                </div>
-        </div>
-        <div class="row" style="margin-top: 30px;">
-                <div class="col-sm">
-                    <canvas id="sum_rain"></canvas>
+                    {% if sum.rain_fall__sum %}Total sur la période: {{ sum.rain_fall__sum }}mm{% else %}Pas de pluie sur la période{% endif %}
                 </div>
         </div>
     </div>
     <script>
-        var config1 = {
+        var config = {
             type: 'line',
             data: {
                 labels: [
                         {% for measurement in measurements %}
-                            '{{ measurement.created_at|timezone:"Europe/Paris"|date:"G:i" }}',
-                        {% endfor %}
-                    ],
-                datasets: [{
-                    label: 'Pluie',
-                    backgroundColor: "#5893d4",
-                    borderColor: "#5893d4",
-                    data: [
-                        {% for measurement in measurements %}
-                            {{ measurement.rain_fall|default_if_none:0 }},
-                        {% endfor %}
-                    ],
-                    fill: false,
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
-                    xAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: false,
-                        }
-                    }],
-                    yAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: false,
-                        }
-                    }]
-                }
-            }
-        };
-        var config2 = {
-            type: 'bar',
-            data: {
-                labels: [
-                        {% for measurement in measurements_by_years %}
                             '{{ measurement.date }}',
                         {% endfor %}
                     ],
@@ -82,7 +28,7 @@
                     backgroundColor: "#5893d4",
                     borderColor: "#5893d4",
                     data: [
-                        {% for measurement in measurements_by_years %}
+                        {% for measurement in measurements %}
                             {{ measurement.data }},
                         {% endfor %}
                     ],
@@ -115,18 +61,16 @@
                             display: false,
                         },
                         ticks: {
-                beginAtZero: true
-            }
+                            beginAtZero: true
+                        }
                     }]
                 }
             }
         };
 
         window.onload = function() {
-            var ctx2 = document.getElementById('sum_rain').getContext('2d');
-            window.myLine = new Chart(ctx2, config2);
-            var ctx1 = document.getElementById('rain').getContext('2d');
-            window.myLine = new Chart(ctx1, config1);
+            var ctx = document.getElementById('rain').getContext('2d');
+            window.myLine = new Chart(ctx, config);
         };
     </script>
 {% endblock %}

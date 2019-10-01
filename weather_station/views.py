@@ -104,18 +104,20 @@ def lux(request):
     return render(request, "lux.html", context={"measurements": measurements})
 
 
-def rain(request):
-    time_threshold = datetime.now() - timedelta(hours=24)
-    measurements = (
+def rain(request, slice="hour"):
+    time_threshold = datetime.now() - timedelta(days=365)
+    if slice == "hour":
+        time_threshold = datetime.now() - timedelta(hours=24)
+
+    measurements_rain = (
         Measurement.objects.filter(created_at__gt=time_threshold)
         .order_by("created_at")
         .values("rain_fall", "created_at")
     )
-    time_threshold = datetime.now() - timedelta(days=365)
-    measurements_by_years = group_measurements(
+    measurements = group_measurements(
         Measurement.objects.filter(created_at__gt=time_threshold),
         "rain_fall",
-        "month",
+        slice,
         "sum",
     )
     return render(
@@ -123,7 +125,6 @@ def rain(request):
         "rain.html",
         context={
             "measurements": measurements,
-            "measurements_by_years": measurements_by_years,
-            "sum": measurements.aggregate(Sum("rain_fall")),
+            "sum": measurements_rain.aggregate(Sum("rain_fall")),
         },
     )

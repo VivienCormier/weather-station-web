@@ -27,5 +27,6 @@ urlpatterns = [
     path("statistics/humidity/", views.humidity, name="humidity"),
     path("statistics/pressure/", views.pressure, name="pressure"),
     path("statistics/rain/", views.rain, name="rain"),
+    path("statistics/rain/<str:slice>/", views.rain, name="rain"),
     path("admin/", admin.site.urls),
 ]

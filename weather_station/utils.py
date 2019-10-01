@@ -1,4 +1,8 @@
+import pytz
+
+
 def group_measurements(query_set, data, slice, aggregate_type):
+    fr = pytz.timezone("Europe/Paris")
     raw_data = {}
     dates = []
     for measurement in query_set.order_by("created_at"):
@@ -7,7 +11,9 @@ def group_measurements(query_set, data, slice, aggregate_type):
             continue
         date = None
         if slice == "month":
-            date = measurement.created_at.strftime("%b %y")
+            date = measurement.created_at.astimezone(fr).strftime("%b %y")
+        elif slice == "hour":
+            date = measurement.created_at.astimezone(fr).strftime("%H:%M")
         if date not in dates:
             dates.append(date)
         m = raw_data.get(date, None)
