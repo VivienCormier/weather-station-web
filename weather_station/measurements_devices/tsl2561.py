@@ -6,6 +6,12 @@ bus = smbus.SMBus(1)
 
 
 def get_data():
+    try:
+        return _get_data()
+    except:
+        return {"lux": None}
+
+def _get_data():
     # TSL2561 address, 0x39(57)
     # Select control register, 0x00(00) with command register, 0x80(128)
     # 		0x03(03)	Power ON mode
